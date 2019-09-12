@@ -1,8 +1,11 @@
 ##########################################################################
 # Cristian Belussi. 2019. 
-# MeLi Challenge. 
+# github.com/xtianhb/MeLiCha2019
+# Licencia MIT.
+# MeLi Data Challenge.
 ##########################################################################
-####
+#ToDo: Probar otros parametros/estrategia. Así no aporto nada. Sin uso.
+##########################################################################
 import gzip
 import gensim 
 import logging

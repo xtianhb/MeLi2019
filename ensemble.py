@@ -1,7 +1,10 @@
 ##########################################################################
-# Cristian Belussi. 2019. 
-# MeLi Challenge.
-ScoreMeLi=0.8318
+# Cristian Belussi. 2019.
+# github.com/xtianhb/MeLiCha2019 
+# Licencia MIT.
+# MeLi Data Challenge.
+##########################################################################
+#ToDo: Mejorar codigo y comentar.
 ##########################################################################
 ####
 DoPre=0  #Leer, limpiar, y guardar datos
@@ -31,6 +34,7 @@ CHUNKSIZE=250000
 MAX_SEQ_LEN = 8
 BATCH_SIZE = 1024
 NClean=0
+ScoreMeLi=0.8318
 ##########################################################################
 #Python
 import os
