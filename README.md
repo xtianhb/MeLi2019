@@ -1,2 +1,12 @@
 # MeLiCha2019
-Contribución al Mercado Libre Data Challenge 2019
+
+Mi aporte para el MeLiChallenge 2019.
+A medida que emprolije el código voy a comentarlo y subir cambios.
+
+Utiliza:
+Python
+Keras + TensorFlow
+SciKitLearn
+
+Datos train/test:
+Aportados por MercadoLibre en formato csv.

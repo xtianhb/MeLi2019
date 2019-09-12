@@ -1,0 +1,41 @@
+varios codes
+
+	TfIdf=0
+    if TfIdf:
+        vectorizer = TfidfVectorizer(analyzer='word', ngram_range=(1,2), norm='l2')
+        vectorizer.fit(Train_Data['title'])
+        x_train_tfidf = vectorizer.transform(Train_Data['title'])
+        y_train_tfidf = Train_Data['category']
+        XTrain_tfidf, XTest_tfidf, YTrain_tfidf, YTest_tfidf = train_test_split(x_train_tfidf, y_train_tfidf, test_size=0.1, random_state = 42, shuffle=True)                            
+		
+		
+		
+		
+		#####
+    def EnsembleModels(_models, _model_input):
+        # collect outputs of models in a list
+        yModels=[model(_model_input) for model in _models] 
+        # averaging outputs
+        yAvg=layers.average(yModels) 
+        # build model from same input and avg output
+        _ModelEns = Model(inputs=_model_input, outputs=yAvg, name='ensemble')  
+        return _ModelEns
+    ######
+	
+	
+	
+	print(Models[0].input_shape)
+    Model_Input = Input(shape=Models[0].input_shape)
+    ModelsEnsemble = EnsembleModels(Models, Model_Input)
+    ModelsEnsemble.summary()
+	
+	if UseWVec:
+            WVModel = gensim.models.Word2Vec.load("model.w2v")
+            Vocab = Counter()
+            Word_Vectors = WVModel.wv
+            MAX_NB_WORDS=len(Word_Vectors.vocab)
+            print("Number of word vectors: {}".format(len(Word_Vectors.vocab)))
+            Word_Index = {t[0]: i+1 for i,t in enumerate(Vocab.most_common(MAX_NB_WORDS))}
+			
+			
+			

@@ -1,0 +1,5 @@
+*.csv
+*.np
+*.npy
+*.tar
+*.gz

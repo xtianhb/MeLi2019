@@ -1,0 +1,4 @@
+*.w2v
+*.npy
+
+corpus.txt

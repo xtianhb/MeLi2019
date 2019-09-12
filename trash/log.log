@@ -1,0 +1,112 @@
+Train on 899999 samples, validate on 100000 samples
+Epoch 1/10
+2019-09-09 16:17:14.613078: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+899999/899999 [==============================] - 736s 818us/step - loss: 4.6059 - acc: 0.2369 - val_loss: 2.2395 - val_acc: 0.6116
+
+Epoch 00001: val_acc improved from -inf to 0.61156, saving model to Weights_NN2.hdf5
+Epoch 2/10
+899999/899999 [==============================] - 665s 738us/step - loss: 2.0017 - acc: 0.6349 - val_loss: 1.6570 - val_acc: 0.7092
+
+Epoch 00002: val_acc improved from 0.61156 to 0.70922, saving model to Weights_NN2.hdf5
+Epoch 3/10
+899999/899999 [==============================] - 754s 838us/step - loss: 1.5719 - acc: 0.7062 - val_loss: 1.4928 - val_acc: 0.7370
+
+Epoch 00003: val_acc improved from 0.70922 to 0.73700, saving model to Weights_NN2.hdf5
+Epoch 4/10
+899999/899999 [==============================] - 822s 913us/step - loss: 1.3613 - acc: 0.7405 - val_loss: 1.3984 - val_acc: 0.7561
+
+Epoch 00004: val_acc improved from 0.73700 to 0.75615, saving model to Weights_NN2.hdf5
+Epoch 5/10
+899999/899999 [==============================] - 725s 806us/step - loss: 1.2132 - acc: 0.7638 - val_loss: 1.3413 - val_acc: 0.7664
+
+Epoch 00005: val_acc improved from 0.75615 to 0.76640, saving model to Weights_NN2.hdf5
+Epoch 6/10
+324608/899999 [=========>....................] - ETA: 7:31 - loss: 1.0723 - acc: 0.7867
+
+
+
+
+NN= 3
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\lib\site-packages\tensorflow\python\framework\op_def_library.py:263: colocate_with (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Colocations handled automatically by placer.
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\lib\site-packages\keras\backend\tensorflow_backend.py:3445: calling dropout (from tensorflow.python.ops.nn_ops) with keep_prob is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `rate` instead of `keep_prob`. Rate should be set to `rate = 1 - keep_prob`.
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #
+=================================================================
+embedding_1 (Embedding)      (None, 8, 32)             6308704
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 256)               0
+_________________________________________________________________
+dense_1 (Dense)              (None, 1024)              263168
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 1024)              0
+_________________________________________________________________
+dense_2 (Dense)              (None, 1588)              1627700
+=================================================================
+Total params: 8,199,572
+Trainable params: 8,199,572
+Non-trainable params: 0
+_________________________________________________________________
+DoImportChkTrain= 0
+DoTrainModel= 1
+Train model...
+WARNING:tensorflow:From C:\ProgramData\Anaconda3\lib\site-packages\tensorflow\python\ops\math_ops.py:3066: to_int32 (from tensorflow.python.ops.math_ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use tf.cast instead.
+Train on 1124999 samples, validate on 125000 samples
+Epoch 1/3
+2019-09-10 17:40:46.895623: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+1124999/1124999 [==============================] - 456s 405us/step - loss: 3.0371 - acc: 0.5020 - val_loss: 1.2417 - val_acc: 0.7665
+
+Epoch 00001: val_acc improved from -inf to 0.76647, saving model to Weights_NN3.hdf5
+Epoch 2/3
+1124999/1124999 [==============================] - 434s 386us/step - loss: 1.0982 - acc: 0.7860 - val_loss: 1.0357 - val_acc: 0.8005
+
+Epoch 00002: val_acc improved from 0.76647 to 0.80048, saving model to Weights_NN3.hdf5
+Epoch 3/3
+1124999/1124999 [==============================] - 478s 425us/step - loss: 0.8914 - acc: 0.8177 - val_loss: 0.9830 - val_acc: 0.8082
+
+Epoch 00003: val_acc improved from 0.80048 to 0.80822, saving model to Weights_NN3.hdf5
+Evaluate model acc...
+125000/125000 [==============================] - 24s 193us/step
+Test set
+  Loss: 0.983
+  Accuracy: 0.808
+DoEvaluate= 1
+Load model weights...
+Evaluate model acc...
+125000/125000 [==============================] - 26s 207us/step
+Test set
+  Loss: 0.983
+  Accuracy: 0.808
+DoTestData= 1
+Read test data
+Elementos de test clean = 246955
+TEST:
+Index(['id', 'title', 'language'], dtype='object')
+   id                                              title    language
+0   0  kit maternidade bolsa mala baby bebe vinho men...  portuguese
+1   1  trocador fraldas fisher price feminino rosa po...  portuguese
+2   2                   motor ventoinha fiat idea palio   portuguese
+3   3            amortecedor mola batente dir new civic   portuguese
+4   4        cadeirinha carro bebe princesa princess kgs  portuguese
+Data to sequences...
+Sequences padding...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
