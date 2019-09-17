@@ -14,13 +14,7 @@ CleanTrain=0 #Clean
 CleanTest=0 #Clean
 ####
 DoModel=1 
-ReadTrain=0 #Leer csv
-DoCats=0 #Proc cats csv y guardar
-DoToken=0 #Gen tokens csv y guardar
-DoSeqPadSplit=0 #Split datos y guardar, sino lee de disco
-
-DoTrainModel=1 #Entrenar
-DoImportChkTrain=1  #Importar
+ReadTrain=1 #Leer csv
 #Ensemble
 EvaluateOnTrain=0
 DoEvaluate=1 #Evaluar
@@ -165,7 +159,6 @@ def ModelNLP():
         Labels = pickle.load(Handle)
     
     #Tokens
-    print("DoToken=",DoToken)
     with open('Tokens.pkl', 'rb') as Handle:
         DataTokenizer = pickle.load(Handle)
 
@@ -189,9 +182,9 @@ def ModelNLP():
 
     print("NN=",NN)
     #Neural Network Train / Test
-    
-    #NN==1:#NOTOCAR
-    ModelT1 = Sequential() #0,80 OK 15 mins / epoch 2M
+    #################################################
+    #NN1
+    ModelT1 = Sequential()  #Val_Acc ~ 0.81
     ModelT1.add(Embedding(input_dim=Vocab_Size, output_dim=128, input_length=MAX_SEQ_LEN) ) 
     ModelT1.add(Flatten())
     ModelT1.add(Dense(256, activation='relu'))
@@ -200,21 +193,20 @@ def ModelNLP():
     ModelT1.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
     ModelT1.summary()
     ModelT1.load_weights(FilePathWeights1)
-    
-    #NN==2:#OPTIMIZAR
-    # ModelT2 = Sequential()  #0,81
-    # ModelT2.add(Embedding(input_dim=Vocab_Size, output_dim=512, input_length=MAX_SEQ_LEN) ) 
-    # ModelT2.add(Flatten())
-    # ModelT2.add(Dense(2048, activation='relu'))
-    # ModelT2.add(Dropout(0.5))
-    # ModelT2.add(Dense(NLABELS, activation='softmax') )
-    # FilePathWeights2="Weights_NN3.hdf5"
-    # ModelT2.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
-    # ModelT2.summary()
-    # ModelT2.load_weights(FilePathWeights2)
-    
-    #NN==3:#NOTOCAR
-    ModelT3 = Sequential()  #0,81
+    #################################################
+    #NN2
+    ModelT2 = Sequential() #Val_Acc ~ 0.83
+    ModelT2.add(Embedding(input_dim=Vocab_Size, output_dim=256, input_length=MAX_SEQ_LEN) ) 
+    ModelT2.add(Conv1D(256, 4, activation='relu'))
+    ModelT2.add(GlobalMaxPooling1D())
+    ModelT2.add(Dense(NLABELS, activation='softmax'))
+    FilePathWeights2="Weights_NN2.hdf5"
+    ModelT2.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+    ModelT2.summary()
+    ModelT2.load_weights(FilePathWeights2)
+    #################################################
+    #NN3
+    ModelT3 = Sequential() #Val_Acc ~ 0.81
     ModelT3.add(Embedding(input_dim=Vocab_Size, output_dim=512, input_length=MAX_SEQ_LEN) ) 
     ModelT3.add(Flatten())
     ModelT3.add(Dense(2048, activation='relu'))
@@ -224,20 +216,36 @@ def ModelNLP():
     ModelT3.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
     ModelT3.summary()
     ModelT3.load_weights(FilePathWeights3)
-    Models = [ModelT1, ModelT3]
+    #################################################
+    #NN4
+    ModelT4 = Sequential()  #Val_Acc ~ 0.81
+    ModelT4.add(Embedding(input_dim=Vocab_Size, output_dim=128, input_length=MAX_SEQ_LEN) ) 
+    ModelT4.add(Flatten())
+    ModelT4.add(Dense(256, activation='relu'))
+    ModelT4.add(Dense(NLABELS, activation='softmax') )
+    FilePathWeights4="Weights_NN4.hdf5"
+    ModelT4.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['acc'])
+    ModelT4.summary()
+    ModelT4.load_weights(FilePathWeights4)
+    #################################################
+    Models = [ModelT1, ModelT2, ModelT3, ModelT4]
+    #################################################
     
     BAcc=0
     if EvaluateOnTrain:
-        print("Evaluate model Acc...")
-        Acc1=ModelT1.evaluate(XTest, YTest)
-        print('##########Test set\n  Loss: {:0.3f}  Accuracy: {:0.3f}##########'.format(Acc1[0], Acc1[1]))
-        Acc3=ModelT3.evaluate(XTest, YTest)
-        print('##########Test set\n  Loss: {:0.3f}  Accuracy: {:0.3f}##########'.format(Acc3[0], Acc3[1]))
-        
-        print("Evaluate model B-Acc...")
-        YPred1 = ModelT1.predict(XTest, verbose=1)
-        YPred3 = ModelT3.predict(XTest, verbose=1)
-        YPred = (YPred1+YPred3)/2.0
+        YPred=None
+        Nm=len(Models)
+        YPredL=[]
+        for i,M in enumerate(Models):
+            print("Evaluate model Acc...")
+            Acc=M.evaluate(XTest, YTest)
+            print('##########Test set\n  Loss: {:0.3f}  Accuracy: {:0.3f}##########'.format(Acc[0], Acc[1]))
+            print("Evaluate model B-Acc...")
+            YPred = M.predict(XTest, verbose=1)
+            YPredL.append(YPred)
+            
+        YPred = 0.8*(YPredL[0] + YPredL[1] +YPredL[2])/Nm + 0.2*YPredL[3]/Nm
+            
         YPredMax = np.argmax(YPred, axis=1).tolist()
         YTestMax = np.argmax(YTest, axis=1).tolist()
 
@@ -257,10 +265,16 @@ def ModelNLP():
         Test_Data_Pad = pad_sequences(Test_Data_Seq, maxlen=MAX_SEQ_LEN)
 
         print("Test predict...")
-        Test_Res_Prob1 = ModelT1.predict(Test_Data_Pad, verbose=1, batch_size=BATCH_SIZE)
-        Test_Res_Prob3 = ModelT3.predict(Test_Data_Pad, verbose=1, batch_size=BATCH_SIZE)
-        print("Test arg max...")
-        Test_Res_Prob = (Test_Res_Prob1+Test_Res_Prob3)/2.0
+        Test_Res_Prob=None
+        Nm=len(Models)
+        for M in Models:
+            Test_Res_Pred = M.predict(Test_Data_Pad, verbose=1, batch_size=BATCH_SIZE)
+            print("Test arg max...")
+            if Test_Res_Prob is None:
+                Test_Res_Prob = Test_Res_Pred
+            else:
+                Test_Res_Prob += Test_Res_Pred
+                
         Test_Res_Int = np.argmax(Test_Res_Prob, axis=1).tolist()
         print("Fin!")
        
