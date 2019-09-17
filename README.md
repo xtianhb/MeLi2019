@@ -6,12 +6,13 @@ Mi aporte para el MeLiChallenge 2019.
 
 A medida que emprolije el código voy a comentarlo y subir cambios.
 
-Utiliza: Python + Keras + TensorFlow + SciKitLearn
+Utiliza: Python + Keras 
++ TensorFlow + SciKitLearn
 
 Datos train/test:
 Aportados por MercadoLibre en formato csv.
 
-La idea del repositorio es que alguien que nunca haya hecho Machine Learning con textos (Hola!XD) tenga un lugar de donde empezar. Hay que usar y editar train.py para generar uno o varios modelos diferentes. Después cuando se decide que los modelos están listos, usarlos en ensemble.py que toma varios modelos y aplica todos a los mismos datos para después promediar los resultados y mejorar la predicción. En train.py hay varios flags para decidir que se quiere hacer en el script, en cada etapa del desarrollo. El código debería estar hecho con clases y separado en módulos/funcs, pero no tuve tiempo y no sabía como crecen este tipo de programas. Hay mucho hecho sobre la marcha.
+La idea del repositorio es que alguien que nunca haya hecho Machine Learning con textos (Hola!XD) tenga un lugar de donde empezar. Hay que usar y editar model.py para generar uno o varios modelos diferentes. Después cuando se decide que los modelos están listos, usarlos en ensemble.py que toma varios modelos y aplica todos a los mismos datos para después promediar los resultados y mejorar la predicción. En model.py hay varios flags para decidir que se quiere hacer en el script, en cada etapa del desarrollo. El código debería estar hecho con clases y separado en módulos/funcs, pero no tuve tiempo y no sabía como crecen este tipo de programas. Hay mucho hecho sobre la marcha.
 
 En una etapa de preparación se leen los dataset tal como los entrega ML, se procesan con regex sencillas, y se almacenan en disco. No hago split de idioma por ahora para mantelerlo simple, aunque es una idea claramente interesante de probar para mejorar. No trabaje con la columna reliable del train-set porque cuando se exploran los datos solo hay un ~6% (chequar) de labels confiables.
 
